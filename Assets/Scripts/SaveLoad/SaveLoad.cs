@@ -1,18 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
-public class SaveLoad : MonoBehaviour
+public static class SaveLoad
 {
-    // Start is called before the first frame update
-    void Start()
+    private static BinaryFormatter _formatter = new BinaryFormatter();
+
+    public static void Save()
     {
-        
+        var saveStream = new FileStream(GlobalConstants.BinarySavePath, FileMode.Create);
+
+        var data = new SaveData()
+        {
+            Name = GameData.BestPlayer,
+            Score = GameData.BestScore,
+        };
+
+        _formatter.Serialize(saveStream, data);
+
+        saveStream.Close();
     }
 
-    // Update is called once per frame
-    void Update()
+    public static SaveData Load()
     {
-        
+        if (File.Exists(GlobalConstants.BinarySavePath))
+        {
+            var loadSteram = new FileStream(GlobalConstants.BinarySavePath, FileMode.Open);
+
+            var data = _formatter.Deserialize(loadSteram) as SaveData;
+
+            loadSteram.Close();
+
+            return data;
+        }
+
+        else
+            return null;
     }
 }

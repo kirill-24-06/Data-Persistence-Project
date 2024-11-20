@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,6 +9,7 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     [SerializeField] private Text _bestScore;
+    [SerializeField] private MainSceneUi _ui;
     public Text ScoreText;
     public GameObject GameOverText;
     
@@ -23,8 +22,9 @@ public class MainManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        _ui.MenuExit += OnMenuExit;
         _bestScore.text = "Best Score: " + GameData.BestPlayer + ": " + GameData.BestScore;
+
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -72,8 +72,8 @@ public class MainManager : MonoBehaviour
 
         if(m_Points > GameData.BestScore)
         {
-            GameData.NewBestScore(m_Points);
-            GameData.NewBestPlayer(GameData.CurrentPlayerName);
+            GameData.SetBestScore(m_Points);
+            GameData.SetBestPlayer(GameData.CurrentPlayerName);
             _bestScore.text = "Best Score: " + GameData.BestPlayer + ": " + GameData.BestScore;
         }
     }
@@ -84,8 +84,7 @@ public class MainManager : MonoBehaviour
         GameOverText.SetActive(true);
     }
 
-    //private void OnApplicationQuit()
-    //{
-        
-    //}
+    private void OnMenuExit() => SaveLoad.Save();
+   
+    private void OnApplicationQuit() => SaveLoad.Save();
 }

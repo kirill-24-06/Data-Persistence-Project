@@ -1,18 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MenuEntryPoint : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private MainMenuUI _menuUI;
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
-        
+        try
+        {
+            var data = SaveLoad.Load();
+
+            if (data != null)
+            {
+                GameData.SetBestPlayer(data.Name);
+                GameData.SetBestScore(data.Score);
+            }
+        }
+        catch
+        {
+            var warnning = "Data cannot be uploaded, the save file is corrupted!!!";
+            _menuUI.HandleExeption(warnning);
+        }
     }
 }

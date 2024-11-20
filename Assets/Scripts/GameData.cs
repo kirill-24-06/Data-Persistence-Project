@@ -13,9 +13,9 @@ public static class GameData
 
     public static void SetName(string newName) => _currentPlayerName = newName;
 
-    public static void NewBestPlayer(string newName) => _bestPlayer = newName;
+    public static void SetBestPlayer(string newName) => _bestPlayer = newName;
 
-    public static void NewBestScore(int newScore)
+    public static void SetBestScore(int newScore)
     {
         if (newScore > _bestScore)
             _bestScore = newScore;

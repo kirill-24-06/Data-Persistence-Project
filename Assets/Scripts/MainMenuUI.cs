@@ -13,9 +13,16 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _bestScoreText;
     [SerializeField] private TMP_InputField _nameField;
 
+    private string _bestScore;
+
+    private bool _isExeption = false;
+
     private void Start()
     {
-        _bestScoreText.text = "Best Score: " + GameData.BestPlayer + ": " + GameData.BestScore;
+        if (!_isExeption)
+            _bestScore = "Best Score: " + GameData.BestPlayer + ": " + GameData.BestScore;
+
+        _bestScoreText.text = _bestScore;
 
         _startButton.onClick.AddListener(StartGame);
         _exitButton.onClick.AddListener(ExitGame);
@@ -26,7 +33,14 @@ public class MainMenuUI : MonoBehaviour
     private void StartGame() => SceneLoader.LoadScene(GlobalConstants.MainSceneName);
 
     public void SetPlayerName(string name) => GameData.SetName(name);
-   
+
+    public void HandleExeption(string exeptionWarning)
+    {
+        _isExeption = true;
+        _bestScoreText.color = Color.red;
+        _bestScore = exeptionWarning;
+    }
+
     private void ExitGame()
     {
 #if UNITY_EDITOR
