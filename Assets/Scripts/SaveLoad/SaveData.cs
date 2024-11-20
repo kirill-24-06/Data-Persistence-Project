@@ -2,6 +2,6 @@
 [System.Serializable]
 public class SaveData
 {
-    public string Name;
-    public int Score;
+    public string[] Names;
+    public int[] Scores;
 }

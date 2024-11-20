@@ -18,12 +18,18 @@ public class MainManager : MonoBehaviour
     
     private bool m_GameOver = false;
 
+    private int _currentBestPlayer;
+    private int _currentPlayerPlace;
+
     
     // Start is called before the first frame update
     void Start()
     {
         _ui.MenuExit += OnMenuExit;
-        _bestScore.text = "Best Score: " + GameData.BestPlayer + ": " + GameData.BestScore;
+
+        _currentBestPlayer = GameData.BestPlayers.Length - 1;
+        _currentPlayerPlace = _currentBestPlayer + 1;
+        _bestScore.text = "Best Score: " + GameData.BestPlayers[_currentBestPlayer] + ": " + GameData.BestScores[_currentBestPlayer];
 
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
@@ -70,11 +76,28 @@ public class MainManager : MonoBehaviour
         m_Points += point;
         ScoreText.text = $"Score : {m_Points}";
 
-        if(m_Points > GameData.BestScore)
+        if (m_Points > GameData.BestScores[_currentBestPlayer])
         {
-            GameData.SetBestScore(m_Points);
-            GameData.SetBestPlayer(GameData.CurrentPlayerName);
-            _bestScore.text = "Best Score: " + GameData.BestPlayer + ": " + GameData.BestScore;
+            GameData.SetBestScore(_currentBestPlayer,m_Points);
+            GameData.SetBestPlayer(_currentBestPlayer,GameData.CurrentPlayerName);
+
+            _currentPlayerPlace--;
+            if (_currentPlayerPlace < 0)
+                _currentPlayerPlace = 0;
+
+            _currentBestPlayer--;
+            if(_currentBestPlayer < 0)
+                _currentBestPlayer = 0;
+
+            _bestScore.text = "Best Score: " + GameData.BestPlayers[_currentBestPlayer] + ": " + GameData.BestScores[_currentBestPlayer];
+        }
+
+        else if (_currentPlayerPlace < GameData.BestPlayers.Length)
+        {
+            if(m_Points > GameData.BestScores[_currentPlayerPlace])
+            {
+                GameData.SetBestScore(_currentPlayerPlace, m_Points);
+            }
         }
     }
 

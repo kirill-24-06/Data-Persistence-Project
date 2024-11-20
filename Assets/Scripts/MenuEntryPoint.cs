@@ -12,14 +12,22 @@ public class MenuEntryPoint : MonoBehaviour
 
             if (data != null)
             {
-                GameData.SetBestPlayer(data.Name);
-                GameData.SetBestScore(data.Score);
+                SetData(data);
             }
         }
         catch
         {
             var warnning = "Data cannot be uploaded, the save file is corrupted!!!";
             _menuUI.HandleExeption(warnning);
+        }
+    }
+
+    private void SetData(SaveData data)
+    {
+        for (int i = 0; i < data.Names.Length; i++)
+        {
+            GameData.SetBestPlayer(i, data.Names[i]);
+            GameData.SetBestScore(i, data.Scores[i]);
         }
     }
 }

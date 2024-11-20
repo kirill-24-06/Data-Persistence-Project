@@ -11,8 +11,23 @@ public static class SaveLoad
 
         var data = new SaveData()
         {
-            Name = GameData.BestPlayer,
-            Score = GameData.BestScore,
+            Names = new string[]
+            {
+                GameData.BestPlayers[0],
+                GameData.BestPlayers[1],
+                GameData.BestPlayers[2],
+                GameData.BestPlayers[3],
+                GameData.BestPlayers[4],
+            },
+
+            Scores = new int[]
+            {
+                GameData.BestScores[0],
+                GameData.BestScores[1],
+                GameData.BestScores[2],
+                GameData.BestScores[3],
+                GameData.BestScores[4],
+            }
         };
 
         _formatter.Serialize(saveStream, data);
