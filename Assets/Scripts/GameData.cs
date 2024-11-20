@@ -1,18 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class GameData : MonoBehaviour
+public static class GameData
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private static string _currentPlayerName = "Player1";
+    public static string CurrentPlayerName => _currentPlayerName;
 
-    // Update is called once per frame
-    void Update()
+    private static string _bestPlayer = "Joe";
+    public static string BestPlayer => _bestPlayer;
+
+    private static int _bestScore = 0;
+    public static int BestScore => _bestScore;
+
+
+    public static void SetName(string newName) => _currentPlayerName = newName;
+
+    public static void NewBestPlayer(string newName) => _bestPlayer = newName;
+
+    public static void NewBestScore(int newScore)
     {
-        
+        if (newScore > _bestScore)
+            _bestScore = newScore;
     }
 }
